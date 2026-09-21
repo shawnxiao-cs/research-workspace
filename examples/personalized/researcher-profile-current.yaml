@@ -1,0 +1,52 @@
+# Example profile for a researcher who is entering remote-sensing + deep-learning research.
+# This is an example, not required project data.
+profile_version: 0.1
+researcher:
+  stage: graduate-year-1
+  research_interests:
+    - Remote Sensing
+    - Deep Learning
+    - Compressed Sensing
+    - Image Reconstruction
+  goals:
+    - Build deep-learning foundations
+    - Begin research-paper reading
+    - Develop toward a first research paper
+
+learning_progress:
+  primary_textbook:
+    name: "神经网络与深度学习"
+    chapters_completed: 7
+
+knowledge_state:
+  CNN:
+    conceptual: 2
+    mathematical: null
+    implementation: null
+    application: null
+    research: null
+  RNN:
+    conceptual: 2
+    mathematical: null
+    implementation: null
+    application: null
+    research: null
+  Self-Attention:
+    conceptual: 2
+    mathematical: null
+    implementation: null
+    application: null
+    research: null
+  Transformer:
+    conceptual: 2
+    mathematical: null
+    implementation: 0
+    application: null
+    research: null
+  Mamba:
+    awareness: 0
+    conceptual: 0
+    mathematical: 0
+    implementation: 0
+    application: 0
+    research: 0

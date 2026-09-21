@@ -1,0 +1,43 @@
+profile_version: 0.1
+researcher:
+  id: USER-0001
+  stage: "graduate year 1"
+  background:
+    - Computer Science
+  research_interests:
+    - Remote Sensing
+    - Deep Learning
+    - Image Reconstruction
+    - Compressed Sensing
+  research_goals:
+    - Research initiation
+    - Paper reading
+    - Small paper
+learning_progress:
+  sources:
+    - name: "神经网络与深度学习"
+      progress: "chapter 1-7"
+knowledge_state:
+  CNN:
+    conceptual: 2
+  RNN:
+    conceptual: 2
+  Self-Attention:
+    conceptual: 2
+  Transformer:
+    conceptual: 2
+    implementation: 0
+    mathematical: null
+    application: null
+    research: null
+  Mamba:
+    awareness: 0
+    conceptual: 0
+    mathematical: 0
+    implementation: 0
+    application: 0
+    research: 0
+provenance:
+  type: human
+  review_status: accepted
+  source_refs: []

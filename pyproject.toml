@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "research-workspace"
+version = "0.1.0"
+description = "Local-first research workspace protocol and validation utilities"
+requires-python = ">=3.10"
+authors = [{name = "Research Workspace Contributors"}]
+license = {text = "MIT"}
+readme = "README.md"
+
+[project.scripts]
+research-workspace = "research_workspace.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

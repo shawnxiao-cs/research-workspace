@@ -1,0 +1,6 @@
+protocol_version: 0.1
+source_of_truth: markdown
+file_history: git
+optional_view: obsidian
+proposal_policy: human_validation_required
+knowledge_scale: 0-4
