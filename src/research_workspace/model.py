@@ -10,6 +10,15 @@ KNOWLEDGE_LEVELS = {
     4: "research-ready",
 }
 
+KNOWLEDGE_DIMENSIONS = (
+    "awareness",
+    "conceptual",
+    "mathematical",
+    "implementation",
+    "application",
+    "research",
+)
+
 def validate_knowledge_level(value: Any) -> bool:
     return value is None or (isinstance(value, int) and 0 <= value <= 4)
 

@@ -28,5 +28,9 @@ If the user says "I understand the Transformer paper but have not used PyTorch",
 ## Mutation
 Prefer proposal → human review → commit. Preserve previous state in history when updating an existing state.
 
+`templates/researcher-profile.yaml` is the public template. The canonical live profile path is `.research/config/researcher-profile.yaml`.
+The live profile may contain personal research and learning information, so it is ignored by default.
+Users may intentionally remove that path from `.gitignore` if they explicitly want to version-control their profile.
+
 ## Output
 Return proposed state changes, supporting evidence, unknown dimensions, and a concise next step tied to the research goal.

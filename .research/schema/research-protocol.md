@@ -24,6 +24,9 @@ Every Skill must define: inputs, readable entities, proposals, permitted mutatio
 ## Provenance
 Generated content is not verified knowledge. Committed entities preserve provenance and review status.
 
+Allowed `provenance.type` values: `source`, `generated`, `human`.
+Allowed `provenance.review_status` values: `pending`, `accepted`, `edited`, `rejected`.
+
 ## Traceability
 Evidence should point to page, section, figure, table, equation, code commit, or experiment log when possible.
 

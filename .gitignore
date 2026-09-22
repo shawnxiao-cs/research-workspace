@@ -4,3 +4,4 @@ __pycache__/
 .venv/
 .DS_Store
 .pytest_cache/
+.research/config/researcher-profile.yaml

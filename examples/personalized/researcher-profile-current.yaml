@@ -2,13 +2,15 @@
 # This is an example, not required project data.
 profile_version: 0.1
 researcher:
+  id: USER-0001
   stage: graduate-year-1
+  background: []
   research_interests:
     - Remote Sensing
     - Deep Learning
     - Compressed Sensing
     - Image Reconstruction
-  goals:
+  research_goals:
     - Build deep-learning foundations
     - Begin research-paper reading
     - Develop toward a first research paper
@@ -50,3 +52,8 @@ knowledge_state:
     implementation: 0
     application: 0
     research: 0
+
+provenance:
+  type: human
+  review_status: accepted
+  source_refs: []

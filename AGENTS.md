@@ -15,6 +15,16 @@ This repository implements a local-first research workspace protocol.
 9. Do not overwrite accepted human notes without explicit approval.
 10. Use stable typed IDs for entities.
 
+## Language policy
+
+- Keep all code identifiers, schema keys, entity names, IDs, folder names, CLI commands, and machine-readable protocol fields in English.
+- Keep `SKILL.md` operational instructions primarily in English.
+- User-facing responses must follow the user's language: Chinese users receive Chinese responses, English users receive English responses, and mixed-language users receive the dominant language.
+- `README.md` must be bilingual: English first, followed by a complete Chinese explanation.
+- Schema documentation may use English terminology with Chinese explanations or examples.
+- Examples may contain Chinese natural-language research notes, but machine-readable keys must remain in English.
+- Learned does not imply implemented.
+
 ## Knowledge scale
 
 ```text
@@ -36,6 +46,8 @@ For implementation specifically:
 ```
 
 ## Example
+
+Learned does not imply implemented.
 
 A researcher can legitimately have:
 

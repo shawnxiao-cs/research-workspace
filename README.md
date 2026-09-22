@@ -3,6 +3,38 @@
 > **A local-first research workspace that turns literature, knowledge, research questions, experiments, and evidence into persistent, traceable, and evolving research memory.**  
 > **一个 Local-first（本地优先）的科研工作空间，将论文、知识、科研问题、实验与证据转化为可持续积累、可追踪、可演化的科研记忆。**
 
+## Language and Documentation Policy
+
+All code identifiers, schema keys, entity names, IDs, folder names, CLI commands, and machine-readable protocol fields stay in English. `SKILL.md` operational instructions should remain primarily in English.
+
+User-facing responses follow the user's language: Chinese users receive Chinese responses, English users receive English responses, and mixed-language users receive the dominant language.
+
+`README.md` is maintained as bilingual documentation: English first, followed by a complete Chinese explanation. Schema documentation may use English terminology with Chinese explanations and examples. Examples may contain Chinese natural-language research notes, but all machine-readable keys remain in English.
+
+Learned does not imply implemented:
+
+```yaml
+Transformer:
+  conceptual: 2
+  implementation: 0
+```
+
+## 语言与文档政策
+
+所有代码标识符、schema key、实体名称、ID、文件夹名称、CLI 命令以及机器可读的协议字段都保持英文。`SKILL.md` 的操作性说明应主要使用英文。
+
+面向用户的回复遵循用户使用的语言：中文用户使用中文回复，英文用户使用英文回复，中英混合时按照主要语言回复。
+
+`README.md` 维护为双语文档：英文在前，随后提供完整中文说明。Schema 文档可以使用英文术语，并配合中文解释和示例。示例可以包含中文自然语言科研笔记，但所有机器可读 key 必须保持英文。
+
+Learned does not imply implemented，学过不代表已经实现：
+
+```yaml
+Transformer:
+  conceptual: 2
+  implementation: 0
+```
+
 ## 项目简介 | Overview
 
 **Research Workspace** is an open-source, Codex-oriented research workflow project. It is designed to help a researcher build a long-term, structured research state instead of treating each paper-reading session or AI conversation as an isolated event.
