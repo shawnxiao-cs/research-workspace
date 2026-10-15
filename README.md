@@ -578,31 +578,37 @@ The current v0.1 implementation focuses on the foundation rather than autonomous
 
 ## Quick Start | 快速开始
 
-### 1. 初始化科研工作空间 | Initialize a workspace
+### English
 
 ```bash
-python3 scripts/init_workspace.py
+PYTHONPATH=src python3 -m research_workspace.cli init ./my-research --language en
+PYTHONPATH=src python3 -m research_workspace.cli onboard ./my-research --language en
+PYTHONPATH=src python3 -m research_workspace.cli profile show --path ./my-research/.research/config/researcher-profile.yaml --language en
+PYTHONPATH=src python3 -m research_workspace.cli validate ./my-research --language en
+PYTHONPATH=src python3 -m research_workspace.cli validate-profile ./my-research/.research/config/researcher-profile.yaml --language en
 ```
 
-### 2. 校验工作空间 | Validate the workspace
+CLI output defaults to Chinese; use `--language en` or `--language zh` for user-facing text. On an existing profile, choose whether to edit profile details, reassess knowledge topics, or both. Reassessment can be done without re-entering background or interests. An empty topic list preserves existing topics and assessments. Quick Reassessment asks only about conceptual understanding and implementation; it proposes `null` for other dimensions and shows those changes before saving. Detailed mode offers all six dimensions. Choose **Edit** on the preview to edit one section, or **Cancel** to leave the profile untouched. The live YAML profile is local/private and Git-ignored by default. Conceptual understanding never implies implementation ability. “Not assessed” is stored as `null`.
+
+### 中文
+
+先初始化，再通过交互问答创建或更新画像：
 
 ```bash
+PYTHONPATH=src python3 -m research_workspace.cli init ./my-research --language zh
+PYTHONPATH=src python3 -m research_workspace.cli onboard ./my-research --language zh
+PYTHONPATH=src python3 -m research_workspace.cli profile show --path ./my-research/.research/config/researcher-profile.yaml --language zh
+PYTHONPATH=src python3 -m research_workspace.cli validate ./my-research --language zh
+PYTHONPATH=src python3 -m research_workspace.cli validate-profile ./my-research/.research/config/researcher-profile.yaml --language zh
+```
+
+CLI 默认使用中文，也可以通过 `--language en` 切换英文。已有画像可选择只更新画像信息、只重评知识主题，或两者都更新；只重评知识时无需重新填写背景和研究兴趣。主题列表留空会保留已有主题及其评估。快速重评只询问概念理解和实现能力，并提议将其他维度设为 `null`；所有提议会在保存前显示。详细模式可评估全部六个维度。预览中的“编辑”可选择单个分区修改，“取消”会保持画像原样。实时画像位于 `.research/config/researcher-profile.yaml`，默认仅保存在本机并由 Git 忽略。理解概念不代表具备实现能力。“尚未评估”保存为 `null`。
+
+初始化工作区不会覆盖已有画像。`profile show` 用语义标签显示六个维度，`--verbose` 可同时查看内部值。验证失败时先修正画像，再运行工作区验证。自动化测试和仓库脚本验证：
+
+```bash
+python3 -m unittest discover -s tests
 python3 scripts/validate_workspace.py
-```
-
-### 3. 运行自动化测试 | Run tests
-
-```bash
-PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_*.py' -v
-```
-
-### 4. 本地 CLI 使用 | Local CLI usage
-
-无需安装 Python package 也可以直接运行：
-
-```bash
-PYTHONPATH=src python3 -m research_workspace.cli init ./my-research
-PYTHONPATH=src python3 -m research_workspace.cli validate ./my-research
 ```
 
 ---
