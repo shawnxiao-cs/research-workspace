@@ -30,4 +30,7 @@ def _profile_template(root: Path) -> Path:
     workspace_template = root / PROFILE_TEMPLATE
     if workspace_template.exists():
         return workspace_template
+    packaged_template = Path(__file__).resolve().parent / "templates" / "researcher-profile.yaml"
+    if packaged_template.exists():
+        return packaged_template
     return Path(__file__).resolve().parents[2] / PROFILE_TEMPLATE

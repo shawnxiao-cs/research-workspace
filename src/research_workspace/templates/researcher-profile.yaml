@@ -1,0 +1,14 @@
+profile_version: 0.1
+researcher:
+  id: USER-0001
+  stage: ""
+  background: []
+  research_interests: []
+  research_goals: []
+learning_progress:
+  sources: []
+knowledge_state: {}
+provenance:
+  type: human
+  review_status: accepted
+  source_refs: []

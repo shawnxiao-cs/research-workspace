@@ -16,3 +16,6 @@ research-workspace = "research_workspace.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+research_workspace = ["templates/*.yaml"]

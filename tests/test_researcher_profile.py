@@ -49,8 +49,8 @@ class ResearcherProfileTests(unittest.TestCase):
             path = self.write_profile(Path(tmp))
             self.assertEqual(validate_researcher_profile(path), [])
 
-    def test_valid_personalized_example(self):
-        path = ROOT / "examples/personalized/researcher-profile-current.yaml"
+    def test_valid_synthetic_example(self):
+        path = ROOT / "examples/researcher-profile.yaml"
         self.assertEqual(validate_researcher_profile(path), [])
 
     def test_value_5_fails(self):

@@ -1,7 +1,10 @@
 __pycache__/
 *.py[cod]
 *.egg-info/
+build/
+dist/
 .venv/
 .DS_Store
 .pytest_cache/
+# Researcher profiles contain private personal and learning information.
 .research/config/researcher-profile.yaml

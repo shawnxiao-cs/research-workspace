@@ -117,6 +117,10 @@ RESEARCH MEMORY
 
 ## 核心特色 | Key Features
 
+The following sections describe the project's design goals. Their implementation status is summarized in [Current Implementation](#current-implementation--当前实现状态); several research workflows are still plans or Skill instructions only.
+
+以下内容描述项目设计目标。各项能力的实现状态见[当前实现状态](#current-implementation--当前实现状态)；部分科研工作流目前仍只是计划或 Skill 指令。
+
 ### 1. Researcher Profile
 
 建立研究者自己的科研画像，包括：
@@ -339,7 +343,9 @@ Mamba
 
 ## 核心数据模型 | Core Data Model
 
-当前 v0.1 包含以下核心实体：
+下表描述目标协议中的实体。当前可运行代码主要实现研究者画像和知识状态；Paper、Reading、Research Question 只有模板与协议模型，其他实体还没有 CRUD 工作流或跨实体校验。
+
+The table describes entities in the target protocol. The runnable code currently focuses on researcher profiles and knowledge state. Paper, Reading, and Research Question have templates and protocol documentation only; the other entities do not yet have CRUD workflows or cross-entity validation.
 
 | Entity | 中文 | 主要作用 |
 |---|---|---|
@@ -381,13 +387,7 @@ New Research Question
 ```text
 research-workspace/
 │
-├── .agents/
-│   └── skills/
-│       ├── research-profile/
-│       ├── paper-intake/
-│       ├── paper-reader/
-│       ├── research-question/
-│       └── research-memory/
+├── .agents/skills/ # Codex instruction files; most are not executable workflows
 │
 ├── .research/
 │   ├── schema/
@@ -416,6 +416,7 @@ research-workspace/
 ├── src/            # Python 基础工具
 ├── tests/          # 自动化测试
 ├── AGENTS.md       # Codex / Agent 项目级约束
+├── CONTRIBUTING.md # Contributor setup and data-handling rules
 └── README.md
 ```
 
@@ -461,32 +462,59 @@ Markdown + Git + Codex
 
 ## Codex Skills | Codex 技能
 
-当前已经包含 5 个核心 Skill：
+仓库包含 6 个 Codex Skill 指令文件。它们为 Codex 提供操作约束和工作流程说明；除 `research-onboarding` 使用的画像 onboarding CLI 外，它们不是本仓库可独立执行的流水线或自动化集成。
+
+The repository contains six Codex Skill instruction files. They describe boundaries and workflows for Codex; apart from the profile onboarding CLI used by `research-onboarding`, they are not executable pipelines or automated integrations in this project.
 
 ### `research-profile`
 
 **English:** Maintains the researcher profile and knowledge-state context used for personalized research workflows.  
 **中文：** 管理研究者背景、研究兴趣、学习进度和多维知识状态，为后续个性化科研工作流提供上下文。
 
+Implemented locally: profile validation, interactive onboarding, and profile display. Personalized paper workflows are not implemented by the CLI.
+
+本地已实现画像校验、交互式 onboarding 和画像展示；CLI 尚未实现个性化论文工作流。
+
 ### `paper-intake`
 
 **English:** Turns a paper, DOI, URL, or PDF into structured research objects and proposals.  
 **中文：** 将论文、DOI、URL 或 PDF 导入科研工作空间，并提取论文、概念、方法、任务等结构化信息。
+
+Current status: instruction only; there is no paper extraction or intake command.
+
+当前状态：只有 Skill 指令，尚无论文提取或导入命令。
 
 ### `paper-reader`
 
 **English:** Provides prerequisite-aware, guided paper reading and produces reading records, claims, evidence, and knowledge-update proposals.  
 **中文：** 根据研究者知识状态生成个性化论文阅读路线，并在阅读过程中提取阅读记录、主张、证据和知识更新候选。
 
+Current status: instruction only; there is no guided-reading execution code.
+
+当前状态：只有 Skill 指令，尚无可执行的引导阅读代码。
+
 ### `research-question`
 
 **English:** Creates and manages research questions, knowledge gaps, hypotheses, links, and next actions.  
 **中文：** 管理科研问题、知识缺口、假设、关联论文、实验以及下一步行动。
 
+Current status: instruction plus a template; there is no research-question management command.
+
+当前状态：有 Skill 指令和模板，尚无科研问题管理命令。
+
 ### `research-memory`
 
 **English:** Commits validated research knowledge into persistent local Markdown memory while preserving provenance.  
 **中文：** 将经过人工确认的科研信息提交到本地 Markdown Research Memory，并保留来源与 provenance。
+
+Current status: instruction and protocol only; validated memory commits are a human workflow, not an implemented automation.
+
+当前状态：只有 Skill 指令和协议；经过验证的记忆提交由人执行，尚无自动化实现。
+
+### `research-onboarding`
+
+**English:** Documents the human-reviewed profile onboarding flow provided by the CLI.
+**中文：** 说明 CLI 提供的研究者画像交互式创建与更新流程，并要求保存前由用户审核。
 
 ---
 
@@ -498,10 +526,10 @@ Every Skill follows the same boundary model:
 
 | Capability | 中文 | 含义 |
 |---|---|---|
-| `Read` | 读取 | 可以读取指定研究实体 |
-| `Propose` | 提议 | 可以生成 Proposal |
-| `Modify` | 修改 | 只能修改明确授权的字段 |
-| `Commit` | 提交 | 经过人工确认后才能进入正式 Research Memory |
+| `L0 Read` | 读取 | 读取允许访问的研究实体 |
+| `L1 Propose` | 提议 | 生成待审核提案 |
+| `L2 Human Commit` | 人工提交 | 人工接受或编辑后再写入记录 |
+| `L3 Controlled Mutation` | 受控修改 | 仅修改明确授权的字段 |
 
 默认流程：
 
@@ -543,24 +571,45 @@ Research Memory
 
 ---
 
-## Current MVP | 当前 MVP
+## Current Implementation | 当前实现状态
 
-The current v0.1 implementation focuses on the foundation rather than autonomous research execution.
+The current v0.1 package is an early local foundation, not an end-to-end research system.
 
-当前 v0.1 重点是**研究状态模型和科研记忆基础设施**，而不是追求完全自动化科研。
+当前 v0.1 是早期的本地基础工具，还不是端到端科研系统。
 
-已实现：
+**Implemented / 已实现**
 
-- Researcher Profile / 研究者画像
-- Multi-dimensional Knowledge State / 多维知识状态
-- Paper Intake / 论文导入协议
-- Prerequisite-aware Paper Reading / 前置知识感知的论文阅读
-- Research Question model / 科研问题模型
-- Claim + Evidence model / 主张与证据模型
-- Long-term Research Memory / 长期科研记忆
-- Markdown-first local storage / Markdown 本地存储
-- Git / Obsidian compatibility / Git 与 Obsidian 兼容
-- Basic validation and tests / 基础校验与自动化测试
+- Profile template, interactive onboarding with preview/confirmation, profile display, and profile validation.
+- Six independent knowledge dimensions; unknown assessments can remain `null`, and implementation state is never inferred from reading.
+- Workspace initialization and basic Markdown frontmatter / typed-ID checks.
+- Unit tests and a repository validation script.
+- Markdown files remain the source of truth and can be versioned with Git. Obsidian can open Markdown files but has no dedicated integration here.
+
+- 提供画像模板、带预览和确认的交互式 onboarding、画像展示与画像校验。
+- 六个独立知识维度；未评估项可保留为 `null`，不会根据阅读经历推断实现能力。
+- 支持工作区初始化，以及基础 Markdown frontmatter 和类型化 ID 检查。
+- 提供单元测试和仓库验证脚本。
+- Markdown 是事实来源，可由 Git 管理；Obsidian 可以打开这些文件，但本项目没有专用集成。
+
+**Partially implemented / 部分实现**
+
+- Paper, Reading, and Research Question templates and protocol documentation exist, but there is no intake, guided-reading, question-management, experiment, evidence-linking, or research-memory automation.
+- The workspace validator checks required frontmatter field presence and ID format/prefix. It does not validate full schemas, duplicate IDs, or cross-entity references.
+- Codex Skills provide instructions; they do not implement the described workflows on their own.
+
+- Paper、Reading 和 Research Question 有模板及协议文档，但尚无论文导入、引导阅读、问题管理、实验、证据关联或科研记忆自动化。
+- 工作区验证器只检查 frontmatter 必填字段是否存在以及 ID 格式/前缀；不会校验完整 schema、重复 ID 或实体间引用。
+- Codex Skills 提供操作指引；仅凭指令文件并不会实现所描述的工作流。
+
+**Planned / 计划中**
+
+- Stronger schema and cross-entity reference integrity.
+- One end-to-end, clearly synthetic research workflow.
+- Better contributor onboarding and repeatable release preparation.
+
+- 加强 schema、ID 唯一性和实体间引用完整性。
+- 提供一个明确标注为合成数据的端到端科研工作流。
+- 改善新贡献者上手流程和可重复的发布准备。
 
 暂时**不做或不默认做**：
 
@@ -581,28 +630,30 @@ The current v0.1 implementation focuses on the foundation rather than autonomous
 ### English
 
 ```bash
-PYTHONPATH=src python3 -m research_workspace.cli init ./my-research --language en
-PYTHONPATH=src python3 -m research_workspace.cli onboard ./my-research --language en
-PYTHONPATH=src python3 -m research_workspace.cli profile show --path ./my-research/.research/config/researcher-profile.yaml --language en
-PYTHONPATH=src python3 -m research_workspace.cli validate ./my-research --language en
-PYTHONPATH=src python3 -m research_workspace.cli validate-profile ./my-research/.research/config/researcher-profile.yaml --language en
+python3 -m pip install -e .
+research-workspace init ./my-research --language en
+research-workspace onboard ./my-research --language en
+research-workspace profile show --path ./my-research/.research/config/researcher-profile.yaml --language en
+research-workspace validate ./my-research --language en
+research-workspace validate-profile ./my-research/.research/config/researcher-profile.yaml --language en
 ```
 
-CLI output defaults to Chinese; use `--language en` or `--language zh` for user-facing text. On an existing profile, choose whether to edit profile details, reassess knowledge topics, or both. Reassessment can be done without re-entering background or interests. An empty topic list preserves existing topics and assessments. Quick Reassessment asks only about conceptual understanding and implementation; it proposes `null` for other dimensions and shows those changes before saving. Detailed mode offers all six dimensions. Choose **Edit** on the preview to edit one section, or **Cancel** to leave the profile untouched. The live YAML profile is local/private and Git-ignored by default. Conceptual understanding never implies implementation ability. “Not assessed” is stored as `null`.
+CLI output defaults to Chinese; use `--language en` or `--language zh` for user-facing text. On an existing profile, choose whether to edit profile details, reassess knowledge topics, or both. Reassessment can be done without re-entering background or interests. An empty topic list preserves existing topics and assessments. Quick Reassessment asks only about conceptual understanding and implementation; it proposes `null` for other dimensions and shows those changes before saving. Detailed mode offers all six dimensions. Choose **Edit** on the preview to edit one section, or **Cancel** to leave the profile untouched. The live YAML profile at `.research/config/researcher-profile.yaml` is private, local-only, and Git-ignored. Never commit it or copy it into public examples. Conceptual understanding never implies implementation ability. “Not assessed” is stored as `null`.
 
 ### 中文
 
-先初始化，再通过交互问答创建或更新画像：
+先在仓库根目录安装 CLI，再初始化并通过交互问答创建或更新画像：
 
 ```bash
-PYTHONPATH=src python3 -m research_workspace.cli init ./my-research --language zh
-PYTHONPATH=src python3 -m research_workspace.cli onboard ./my-research --language zh
-PYTHONPATH=src python3 -m research_workspace.cli profile show --path ./my-research/.research/config/researcher-profile.yaml --language zh
-PYTHONPATH=src python3 -m research_workspace.cli validate ./my-research --language zh
-PYTHONPATH=src python3 -m research_workspace.cli validate-profile ./my-research/.research/config/researcher-profile.yaml --language zh
+python3 -m pip install -e .
+research-workspace init ./my-research --language zh
+research-workspace onboard ./my-research --language zh
+research-workspace profile show --path ./my-research/.research/config/researcher-profile.yaml --language zh
+research-workspace validate ./my-research --language zh
+research-workspace validate-profile ./my-research/.research/config/researcher-profile.yaml --language zh
 ```
 
-CLI 默认使用中文，也可以通过 `--language en` 切换英文。已有画像可选择只更新画像信息、只重评知识主题，或两者都更新；只重评知识时无需重新填写背景和研究兴趣。主题列表留空会保留已有主题及其评估。快速重评只询问概念理解和实现能力，并提议将其他维度设为 `null`；所有提议会在保存前显示。详细模式可评估全部六个维度。预览中的“编辑”可选择单个分区修改，“取消”会保持画像原样。实时画像位于 `.research/config/researcher-profile.yaml`，默认仅保存在本机并由 Git 忽略。理解概念不代表具备实现能力。“尚未评估”保存为 `null`。
+CLI 默认使用中文，也可以通过 `--language en` 切换英文。已有画像可选择只更新画像信息、只重评知识主题，或两者都更新；只重评知识时无需重新填写背景和研究兴趣。主题列表留空会保留已有主题及其评估。快速重评只询问概念理解和实现能力，并提议将其他维度设为 `null`；所有提议会在保存前显示。详细模式可评估全部六个维度。预览中的“编辑”可选择单个分区修改，“取消”会保持画像原样。实时画像 `.research/config/researcher-profile.yaml` 是私密本地数据，默认由 Git 忽略；不要提交，也不要复制到公共示例。理解概念不代表具备实现能力。“尚未评估”保存为 `null`。
 
 初始化工作区不会覆盖已有画像。`profile show` 用语义标签显示六个维度，`--verbose` 可同时查看内部值。验证失败时先修正画像，再运行工作区验证。自动化测试和仓库脚本验证：
 
@@ -615,51 +666,49 @@ python3 scripts/validate_workspace.py
 
 ## Example | 示例
 
-当前仓库提供了一个个性化科研画像示例：
+`examples/researcher-profile.yaml` 是不对应真实研究者的合成示例，仅展示画像字段结构。不要把真实个人画像复制到公共示例目录。
+
+`examples/researcher-profile.yaml` is a synthetic profile that does not describe a real researcher. It demonstrates field structure only. Do not copy a real personal profile into public examples.
 
 ```text
-examples/personalized/researcher-profile-current.yaml
+examples/researcher-profile.yaml
 ```
 
-其中专门展示了一个关键场景：
+示例展示概念理解与实现能力相互独立：
 
-> **Transformer：概念层面已经理解，但 PyTorch implementation 仍然是 0。**
+> **ExampleConcept：conceptual 为 2，implementation 为 0。**
 
-这个例子说明 Knowledge State 并不是“学过 / 没学过”的二元标签，而是用于表达真实科研学习状态的多维模型。
+该占位概念仅用于说明 Knowledge State 不是“学过 / 没学过”的二元标签，不代表真实科研记录。
 
 ---
 
 ## Roadmap | 后续路线
 
-### Phase 1 — Foundation | 基础设施
+### Milestone 1 — Release readiness | 发布基础
 
-- [x] Researcher Profile
-- [x] Knowledge State
-- [x] Research Protocol
-- [x] Research Question model
-- [x] Paper / Reading templates
-- [x] Basic validation
+- [x] CI for the declared minimum Python version
+- [x] Accurate feature-status documentation and contributor guidance
+- [x] Installed-package CLI smoke coverage
 
-### Phase 2 — Research Workflow | 科研工作流
+已完成：按声明的最低 Python 版本运行 CI、校准功能状态和贡献文档，并覆盖安装后 CLI 冒烟检查。
 
-- [ ] Real paper intake pipeline
-- [ ] Guided reading workflow
-- [ ] Concept / Method extraction
-- [ ] Knowledge-state update workflow
-- [ ] Research Question decomposition
-- [ ] Claim / Evidence linking
-- [ ] Obsidian export and wiki-link generation
+### Milestone 2 — Schema integrity | Schema 完整性
 
-### Phase 3 — Research Intelligence | 科研智能
+- [ ] Validate complete entity schemas, ID uniqueness, and cross-entity references.
 
-- [ ] Research Radar
-- [ ] Paper comparison
-- [ ] Paper → Code mapping
-- [ ] Evidence audit
-- [ ] Experiment workflow
-- [ ] Figure / visualization agent
-- [ ] Reviewer agent
-- [ ] Submission assistant
+待完成：校验实体完整 schema、ID 唯一性和实体间引用。
+
+### Milestone 3 — Synthetic end-to-end workflow | 合成端到端工作流
+
+- [ ] Demonstrate intake through reviewed evidence and claims using clearly synthetic data.
+
+待完成：使用明确标注的合成数据，演示从导入到人工审核证据和主张的完整流程。
+
+### Milestone 4 — Reproducible releases | 可复现发布
+
+- [ ] Improve first-time contributor experience and document repeatable release preparation.
+
+待完成：改善首次贡献体验，并记录可重复的发布准备步骤。
 
 ---
 
